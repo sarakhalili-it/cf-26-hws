@@ -34,7 +34,11 @@ function handleSubmit() {
   if (
     date.value.length == 8 &&
     date.value.match(numericExpression) &&
-    date.value[0] != 0
+    date.value[0] != 0 &&
+    date.value.slice(4, 6) >= "01" &&
+    date.value.slice(4, 6) <= "12" &&
+    date.value.slice(6) >= "01" &&
+    date.value.slice(6) <= "31"
   ) {
     tdDate.textContent =
       date.value.slice(0, 4) +
