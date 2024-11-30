@@ -6,19 +6,19 @@ function renderList(n) {
   const targetElement = document.querySelector("#books ul");
   targetElement.innerHTML = result;
 }
-function validation() {
+//todo: arrow function
+function validation(str) {
+  return !isNaN(parseInt(str));
+}
+function submit() {
   const input = document.querySelector("#books input");
-  const num = Number(input.value);
-  const numericExpression = /^[0-9]+$/;
-  if (input.value.match(numericExpression)) {
-    renderList(num);
+  if (validation(input.value)) {
+    renderList(parseInt(input.value));
   } else {
     alert("please Enter a Number");
   }
   input.value = "";
 }
-function submit() {
-  validation();
-}
+
 const btn = document.querySelector("#submit-button");
 btn.addEventListener("click", submit);
