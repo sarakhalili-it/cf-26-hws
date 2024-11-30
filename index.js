@@ -1,4 +1,38 @@
 let counter = 0;
+const formatDateString = (str) =>
+  str.slice(0, 4) + "-" + str.slice(4, 6) + "-" + str.slice(6);
+
+function isValidDateString(str) {
+  if (str.length != 8) {
+    return false;
+  }
+
+  if (str[0] === "0") {
+    return false;
+  }
+
+  const isAllCharIsNumber = str
+    .trim()
+    .split("")
+    .map((n) => parseInt(n))
+    .every((n) => !isNaN(n));
+
+  if (!isAllCharIsNumber) {
+    return false;
+  }
+
+  const month = parseInt(str.slice(4, 6));
+  if (!(1 <= month && month <= 12)) {
+    return false;
+  }
+
+  const day = parseInt(str.slice(6));
+  if (!(1 <= day && day <= 31)) {
+    return false;
+  }
+
+  return true;
+}
 function handleSubmit() {
   let userFirstName = document.querySelector("#user-first-name");
   let userLastName = document.querySelector("#user-last-name");
@@ -16,7 +50,7 @@ function handleSubmit() {
     tdFirstName.textContent = userFirstName.value;
   } else {
     alert("مقدار نام را وارد کنید");
-    return false;
+    return;
   }
   tdFirstName.classList.add("px-6", "py-4");
   //چک کن مقدار فامیلی خالی نباشد
@@ -25,27 +59,13 @@ function handleSubmit() {
     tdLastName.textContent = userLastName.value;
   } else {
     alert("مقدار فامیلی را وارد کنید");
-    return false;
+    return;
   }
   tdLastName.classList.add("px-6", "py-4");
   //چک کردن مقدار تاریخ
   let tdDate = document.createElement("td");
-  var numericExpression = /^[0-9]+$/;
-  if (
-    date.value.length == 8 &&
-    date.value.match(numericExpression) &&
-    date.value[0] != 0 &&
-    date.value.slice(4, 6) >= "01" &&
-    date.value.slice(4, 6) <= "12" &&
-    date.value.slice(6) >= "01" &&
-    date.value.slice(6) <= "31"
-  ) {
-    tdDate.textContent =
-      date.value.slice(0, 4) +
-      "-" +
-      date.value.slice(4, 6) +
-      "-" +
-      date.value.slice(6);
+  if (isValidDateString(date.value)) {
+    tdDate.textContent = formatDateString(date.value);
   } else {
     alert("مقدار 8 عدد برای تاریخ وارد کنید و لطفا با صفر شروع نشود");
     return false;
@@ -54,13 +74,8 @@ function handleSubmit() {
   //Global ID
   let tdCounter = document.createElement("td");
   tdCounter.classList.add("px-6", "py-4", "font-medium", "text-white");
-  if (counter != 0) {
-    counter += 1;
-    tdCounter.innerHTML = counter;
-  } else {
-    counter = 1;
-    tdCounter.innerHTML = counter;
-  }
+  counter += 1;
+  tdCounter.innerHTML = counter;
 
   let td = document.createElement("td");
   td.classList.add("px-6", "py-4");
